@@ -1,0 +1,218 @@
+:root {
+    --bg-color: #f9f8f4;
+    /* Creamy White */
+    --text-color: #1a1a1a;
+    --accent-color: #e62020;
+    /* Swiss Red */
+    --grid-gap: 20px;
+    --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-body);
+    line-height: 1.4;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Grid Layout */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: var(--grid-gap);
+    padding: 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+/* Typography */
+h1 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 4rem;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    border-top: 4px solid var(--text-color);
+    padding-top: 10px;
+    display: inline-block;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    max-width: 60ch;
+}
+
+.lead {
+    font-size: 1.5rem;
+    font-weight: 500;
+    max-width: 40ch;
+}
+
+/* Header */
+.header {
+    grid-column: 1 / 6;
+    grid-row: 1;
+}
+
+.sidebar-image {
+    grid-column: 1 / 5;
+    grid-row: 2;
+}
+
+/* Nav */
+.nav {
+    grid-column: 1 / 4;
+    grid-row: 3;
+    position: sticky;
+    top: 40px;
+}
+
+.nav ul {
+    list-style: none;
+}
+
+.nav li {
+    margin-bottom: 0.5rem;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    transition: color 0.2s;
+}
+
+.nav a:hover {
+    color: var(--accent-color);
+}
+
+/* Main Content */
+.main-content {
+    grid-column: 6 / 13;
+    grid-row: 2 / span 10;
+    /* Ensure content starts at row 2 and spans down */
+}
+
+.section {
+    margin-bottom: 8rem;
+}
+
+/* Profile Image */
+.profile-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin-bottom: 2rem;
+    filter: grayscale(100%);
+    /* Swiss style often uses B&W photography */
+    transition: filter 0.3s ease;
+}
+
+.profile-img:hover {
+    filter: grayscale(0%);
+}
+
+/* About */
+.about-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Projects */
+.project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+}
+
+.project-item {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.company-logo {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+}
+
+.project-details {
+    flex: 1;
+}
+
+/* Contact */
+.cta-link {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    text-decoration: none;
+    border-bottom: 3px solid var(--accent-color);
+    word-break: break-all;
+}
+
+.footer {
+    grid-column: 1 / -1;
+    margin-top: 4rem;
+    border-top: 2px solid var(--text-color);
+    padding-top: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .header,
+    .nav,
+    .main-content {
+        grid-column: 1 / -1;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .nav {
+        grid-row: auto;
+        margin-bottom: 40px;
+        position: static;
+    }
+}
