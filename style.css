@@ -54,28 +54,12 @@ h2 {
     font-size: 1.5rem;
     text-transform: uppercase;
     margin-bottom: 1rem;
-    border-top: 4px solid var(--text-color);
-    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 4px solid var(--text-color);
     display: inline-block;
 }
 
-h3 {
-    font-weight: 700;
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-}
 
-p {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    max-width: 60ch;
-}
-
-.lead {
-    font-size: 1.5rem;
-    font-weight: 500;
-    max-width: 40ch;
-}
 
 /* Header */
 .header {
@@ -122,6 +106,19 @@ p {
     grid-column: 6 / 13;
     grid-row: 2 / span 10;
     /* Ensure content starts at row 2 and spans down */
+}
+
+/* Large Screens Typography Scale */
+@media (min-width: 1600px) {
+    html {
+        font-size: 18px;
+        /* Scale up base font size */
+    }
+
+    .grid-container {
+        max-width: 1400px;
+        /* Allow wider on very large screens if font is larger */
+    }
 }
 
 .section {
@@ -193,6 +190,43 @@ p {
     padding-top: 20px;
     font-weight: 700;
     text-transform: uppercase;
+    text-align: center;
+    /* Center footer content */
+}
+
+.footer-gallery {
+    display: flex;
+    justify-content: flex-start;
+    /* Aligned left */
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.gallery-item {
+    max-width: 400px;
+    /* Limit size as requested */
+    width: 100%;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for nice aesthetic */
+}
+
+.gallery-item .caption {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
+    text-transform: none;
+    text-align: left;
+    /* Aligned left */
 }
 
 /* Responsive */
