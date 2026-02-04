@@ -30,9 +30,11 @@ body {
     grid-template-columns: repeat(12, 1fr);
     grid-gap: var(--grid-gap);
     padding: 40px;
-    max-width: 1440px;
+    max-width: 1200px;
+    /* Reduced from 1440px to prevent emptiness */
     margin: 0 auto;
     min-height: 100vh;
+    align-content: start;
 }
 
 /* Typography */
@@ -77,7 +79,7 @@ p {
 
 /* Header */
 .header {
-    grid-column: 1 / 6;
+    grid-column: 1 / 5;
     grid-row: 1;
 }
 
@@ -88,7 +90,7 @@ p {
 
 /* Nav */
 .nav {
-    grid-column: 1 / 4;
+    grid-column: 1 / 5;
     grid-row: 3;
     position: sticky;
     top: 40px;
