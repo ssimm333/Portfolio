@@ -229,6 +229,35 @@ h2 {
     /* Aligned left */
 }
 
+/* Books */
+.book-list {
+    border-bottom: 2px solid var(--text-color);
+    padding-bottom: 40px;
+    margin-bottom: 40px;
+}
+
+.book-item {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    align-items: start;
+}
+
+.book-cover {
+    max-width: 240px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.book-caption {
+    font-style: normal;
+    text-align: left;
+    margin-top: 0;
+    font-size: 1rem;
+    max-width: 60ch;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .grid-container {
@@ -238,17 +267,65 @@ h2 {
 
     .header,
     .nav,
-    .main-content {
+    .main-content,
+    .sidebar-image,
+    .footer {
         grid-column: 1 / -1;
+        grid-row: auto;
+        /* Reset grid row for mobile stack */
+    }
+
+    .sidebar-image {
+        grid-row: auto;
+        justify-self: start;
+        max-width: 150px;
+        /* Smaller profile image on mobile */
+        margin-bottom: 20px;
     }
 
     h1 {
         font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Stack flex containers on mobile */
+    .about-container,
+    .project-item,
+    .book-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .company-logo {
+        width: 80px;
     }
 
     .nav {
         grid-row: auto;
         margin-bottom: 40px;
         position: static;
+        border-bottom: 2px solid var(--text-color);
+        padding-bottom: 20px;
+    }
+
+    .nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .nav li {
+        margin-bottom: 0;
+    }
+
+    .gallery-item,
+    .book-item {
+        width: 100%;
+    }
+
+    .book-cover {
+        max-width: 100%;
+        /* Full width on mobile if needed, or keep limit */
     }
 }
