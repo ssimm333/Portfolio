@@ -325,7 +325,7 @@ h2 {
     }
 
     .book-cover {
-        max-width: 100%;
-        /* Full width on mobile if needed, or keep limit */
+        max-width: 150px;
+        /* Limit size on mobile */
     }
 }
