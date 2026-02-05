@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Stuff - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- MathJax for rendering equations -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    <style>
+        .pendulum-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        #pendulumCanvas {
+            background: #f9f8f4;
+            border: 2px solid #1a1a1a;
+            border-radius: 4px;
+            box-shadow: none;
+            cursor: grab;
+        }
+
+        #pendulumCanvas:active {
+            cursor: grabbing;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            padding: 20px;
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 0.9em;
+            color: #1a1a1a;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .control-group input[type="range"] {
+            width: 150px;
+            cursor: pointer;
+        }
+
+        .control-group input[type="number"] {
+            width: 80px;
+            padding: 5px;
+            border-radius: 0;
+            border: 1px solid #1a1a1a;
+            background: #fff;
+            color: #1a1a1a;
+            font-size: 0.9em;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background: #e62020;
+            transform: none;
+            box-shadow: none;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .info-text {
+            text-align: left;
+            color: #1a1a1a;
+            font-size: 0.9em;
+            max-width: 600px;
+        }
+
+        .trace-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trace-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .collapsible-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .collapsible.active .collapsible-wrapper {
+            grid-template-rows: 1fr;
+        }
+
+        .collapsible-content {
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+
+        .collapsible.active .collapsible-content {
+            opacity: 1;
+        }
+
+        .collapsible-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding-bottom: 10px;
+            border-bottom: 4px solid #1a1a1a;
+            margin-bottom: 0 !important;
+            /* Override standard section hover if needed */
+        }
+
+        .collapsible-header:hover h2 {
+            color: #e62020;
+        }
+
+        .collapsible-header h2 {
+            border-bottom: none;
+            /* Remove default H2 border to avoid double border */
+            margin-bottom: 0;
+            padding-bottom: 0;
+            transition: color 0.2s;
+        }
+
+        .toggle-icon {
+            width: 12px;
+            height: 12px;
+            border-right: 3px solid #1a1a1a;
+            border-bottom: 3px solid #1a1a1a;
+            transform: rotate(45deg);
+            transition: transform 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .collapsible.active .toggle-icon {
+            transform: rotate(-135deg);
+            border-color: #e62020;
+        }
+
+        .math-block {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0efe9;
+            /* Slightly darker than bg */
+            border-left: 4px solid #1a1a1a;
+            font-family: 'Georgia', serif;
+            /* Serif for academic feel */
+        }
+
+        .math-title {
+            font-family: 'Helvetica Neue', 'Arial', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .equation {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 20px 0;
+            color: #1a1a1a;
+        }
+
+        .variable {
+            font-weight: bold;
+            font-family: 'Times New Roman', serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grid-container">
+        <header class="header">
+            <h1>Stanislav<br>Simanovich</h1>
+        </header>
+
+        <div class="sidebar-image">
+            <img src="images/me.jpg" alt="Stanislav Simanovich" class="profile-img">
+        </div>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#work">Work</a></li>
+                <li><a href="index.html#education">Education</a></li>
+                <li><a href="cool-stuff.html">Cool Stuff</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <section class="section collapsible active">
+                <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
+                    <h2>Interactive Double Pendulum</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="collapsible-wrapper">
+                    <div class="collapsible-content">
+                        <div class="content-block" style="margin-top: 20px;">
+                            <p class="info-text">
+                                A chaotic double pendulum simulation. Drag the pendulum bobs to set initial positions,
+                                or use the controls below to adjust parameters. Watch as tiny changes in initial
+                                conditions
+                                lead to dramatically different outcomes - a beautiful demonstration of chaos theory!
+                            </p>
+                        </div>
+
+                        <div class="pendulum-container">
+                            <canvas id="pendulumCanvas" width="800" height="600"></canvas>
+
+                            <div class="controls">
+                                <div class="control-group">
+                                    <label for="mass1">Mass 1 (kg):</label>
+                                    <input type="number" id="mass1" min="1" max="50" value="10" step="1">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="mass2">Mass 2 (kg):</label>
+                                    <input type="number" id="mass2" min="1" max="50" value="10" step="1">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="length1">Length 1 (m):</label>
+                                    <input type="number" id="length1" min="50" max="200" value="150" step="10">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="length2">Length 2 (m):</label>
+                                    <input type="number" id="length2" min="50" max="200" value="150" step="10">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="gravity">Gravity (m/s²):</label>
+                                    <input type="number" id="gravity" min="1" max="20" value="9.81" step="0.1">
+                                </div>
+
+                                <div class="control-group trace-toggle">
+                                    <input type="checkbox" id="showTrace" checked>
+                                    <label for="showTrace">Show Trace</label>
+                                </div>
+
+                                <button id="resetBtn">Reset</button>
+                                <button id="pauseBtn">Pause</button>
+                            </div>
+                        </div>
+
+                        <div class="math-block">
+                            <div class="math-title">The Math Behind It</div>
+                            <p>The double pendulum is a classic system in <span class="variable">Lagrangian
+                                    Mechanics</span>. Unlike simple physics where we sum forces ($F=ma$), here we look
+                                at Energy.</p>
+
+                            <p>We define the <strong>Lagrangian</strong> ($\mathcal{L}$) as the difference between
+                                Kinetic Energy ($T$) and Potential Energy ($V$):</p>
+                            <div class="equation">
+                                $\mathcal{L} = T - V$
+                            </div>
+
+                            <p>For this system, the equations of motion are derived using the Euler-Lagrange equation:
+                            </p>
+                            <div class="equation">
+                                $\frac{d}{dt}(\frac{\partial\mathcal{L}}{\partial\dot{\theta}_i}) -
+                                \frac{\partial\mathcal{L}}{\partial\theta_i} = 0$
+                            </div>
+
+                            <p>This results in two coupled, non-linear second-order differential equations that are
+                                solved numerically (using RK4) 60 times a second to create the animation you see above.
+                                It is because of these non-linear terms that the system exhibits <strong>chaos</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section collapsible">
+                <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
+                    <h2>PID Controller</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="collapsible-wrapper">
+                    <div class="collapsible-content">
+                        <div class="content-block" style="margin-top: 20px;">
+                            <p class="info-text">
+                                A visual demonstration of a PID controller. Twist the <strong>TARGET</strong> knob (Red)
+                                and
+                                watch
+                                the <strong>OUTPUT</strong> knob (Black) try to follow it. The output knob simulates a
+                                physical
+                                object
+                                with weight and friction. Adjust the P, I, and D parameters to see how they affect the
+                                control
+                                loop performance.
+                            </p>
+                        </div>
+
+                        <div class="pendulum-container">
+                            <canvas id="pidCanvas" width="800" height="300"
+                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: default;"></canvas>
+
+                            <div class="controls">
+                                <div class="control-group">
+                                    <label for="kp">Proportional (Kp): <span id="kp-val">0.5</span></label>
+                                    <input type="range" id="kp" min="0" max="5" value="0.5" step="0.1">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="ki">Integral (Ki): <span id="ki-val">0.0</span></label>
+                                    <input type="range" id="ki" min="0" max="2" value="0.0" step="0.01">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="kd">Derivative (Kd): <span id="kd-val">0.1</span></label>
+                                    <input type="range" id="kd" min="0" max="2" value="0.1" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="math-block">
+                            <div class="math-title">The Math Behind It</div>
+                            <p>A <strong>PID Controller</strong> calculates an "error" value ($e(t)$) as the difference
+                                between your desired Setpoint and the measured Process Variable.</p>
+
+                            <p>The controller attempts to minimize this error by adjusting the input (Torque) using
+                                three terms:</p>
+                            <div class="equation">
+                                $u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau)d\tau + K_d \frac{de(t)}{dt}$
+                            </div>
+
+                            <ul>
+                                <li><strong>P (Proportional)</strong>: Depends on the <em>present</em> error. "I'm not
+                                    where I want to be, push harder!"</li>
+                                <li><strong>I (Integral)</strong>: Depends on the <em>past</em> accumulation of errors.
+                                    "I've been off target for a long time, I need to push constantly."</li>
+                                <li><strong>D (Derivative)</strong>: Depends on the <em>future</em> rate of change. "I'm
+                                    approaching the target too fast, slow down!"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section collapsible">
+                <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
+                    <h2>Fourier Series Drawing</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="collapsible-wrapper">
+                    <div class="collapsible-content">
+                        <div class="content-block" style="margin-top: 20px;">
+                            <p class="info-text">
+                                <strong>Draw anything</strong> in the box below! The computer will calculate the Fourier
+                                Series (DFT)
+                                of your drawing and reconstruct it using purely rotating circles (<span
+                                    class="variable">epicycles</span>).
+                            </p>
+                            <p class="info-text" style="font-size: 0.9em; opacity: 0.7;">
+                                Note: Complex drawings may take a moment to compute.
+                            </p>
+                        </div>
+
+                        <div class="pendulum-container">
+                            <canvas id="fourierCanvas" width="800" height="500"
+                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: crosshair; touch-action: none;"></canvas>
+                        </div>
+
+                        <div class="math-block">
+                            <div class="math-title">The Math Behind It</div>
+                            <p>This demo uses the <strong>Discrete Fourier Transform (DFT)</strong> to convert your
+                                time-domain drawing into frequency-domain components.</p>
+
+                            <p>We treat your drawing as a sequence of complex numbers ($x_n$). The DFT formula gives us
+                                the amplitude and phase for each rotating circle:</p>
+                            <div class="equation">
+                                $X_k = \sum_{n=0}^{N-1} x_n \cdot e^{-i \frac{2\pi}{N} kn}$
+                            </div>
+
+                            <p>Where:</p>
+                            <ul>
+                                <li>$x_n$: The $n$-th point of your drawing (Complex Number).</li>
+                                <li>$X_k$: The $k$-th frequency component (defines Radius and Angle).</li>
+                                <li>$e^{-i\theta}$: Euler's formula describing rotation in the complex plane
+                                    ($\cos\theta
+                                    - i\sin\theta$).</li>
+                            </ul>
+                            <p>By summing these rotating vectors, we can approximate <em>any</em> periodic function.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section collapsible">
+                <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
+                    <h2>Lorenz Attractor</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="collapsible-wrapper">
+                    <div class="collapsible-content">
+                        <div class="content-block" style="margin-top: 20px;">
+                            <p class="info-text">
+                                The <strong>Lorenz Attractor</strong> is a set of chaotic solutions to the Lorenz
+                                system.
+                                It resembles a butterfly and is a primary example of how deterministic systems can
+                                exhibit unpredictable behavior.
+                                <strong>Drag to rotate</strong> the 3D view!
+                            </p>
+                        </div>
+
+                        <div class="pendulum-container">
+                            <canvas id="lorenzCanvas" width="800" height="600"
+                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: move;"></canvas>
+
+                            <div class="controls">
+                                <div class="control-group">
+                                    <label for="sigma">Sigma ($\sigma$): <span id="sigma-val">10</span></label>
+                                    <input type="range" id="sigma" min="0" max="50" value="10" step="0.1">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="rho">Rho ($\rho$): <span id="rho-val">28</span></label>
+                                    <input type="range" id="rho" min="0" max="100" value="28" step="0.1">
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="beta">Beta ($\beta$): <span id="beta-val">2.67</span></label>
+                                    <input type="range" id="beta" min="0" max="10" value="2.67" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="math-block">
+                            <div class="math-title">The Math Behind It</div>
+                            <p>The Lorenz system is a system of three ordinary differential equations originally derived
+                                to model atmospheric convection.</p>
+
+                            <div class="equation">
+                                $\frac{dx}{dt} = \sigma(y - x)$
+                            </div>
+                            <div class="equation">
+                                $\frac{dy}{dt} = x(\rho - z) - y$
+                            </div>
+                            <div class="equation">
+                                $\frac{dz}{dt} = xy - \beta z$
+                            </div>
+
+                            <p>Even though these equations are deterministic (no randomness), the system is extremely
+                                sensitive to initial conditions. This effect is popularly known as the <strong>Butterfly
+                                    Effect</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section collapsible">
+                <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
+                    <h2>Conway's Game of Life</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="collapsible-wrapper">
+                    <div class="collapsible-content">
+                        <div class="content-block" style="margin-top: 20px;">
+                            <p class="info-text">
+                                The most famous "Zero Player Game". A set of simple rules that creates complex,
+                                life-like behaviors.
+                                <strong>Click</strong> to revive cells, or use the buttons below.
+                            </p>
+                        </div>
+
+                        <div class="pendulum-container">
+                            <canvas id="golCanvas" width="800" height="500"
+                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: pointer;"></canvas>
+
+                            <div class="controls">
+                                <button id="gol-run">Run</button>
+                                <button id="gol-random">Randomize</button>
+                                <button id="gol-clear">Clear</button>
+                            </div>
+                        </div>
+
+                        <div class="math-block">
+                            <div class="math-title">The Rules</div>
+                            <p>Every cell interacts with its eight neighbors based on these four rules:</p>
+                            <ul>
+                                <li><strong>Underpopulation</strong>: Any live cell with fewer than two neighbors dies.
+                                </li>
+                                <li><strong>Survival</strong>: Any live cell with two or three neighbors lives.</li>
+                                <li><strong>Overpopulation</strong>: Any live cell with more than three neighbors dies.
+                                </li>
+                                <li><strong>Reproduction</strong>: Any dead cell with exactly three neighbors becomes a
+                                    live cell.</li>
+                            </ul>
+
+                            <p class="equation" style="font-size: 1rem; margin-top: 20px;">
+                                Despite these simple rules, the Game of Life is <strong>Turing Complete</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+
+        <footer class="footer">
+            <p>Stanislav Simanovich &copy;</p>
+        </footer>
+    </div>
+    <script src="pendulum.js"></script>
+    <script src="pid.js"></script>
+    <script src="fourier.js"></script>
+    <script src="lorenz.js"></script>
+    <script src="gameoflife.js"></script>
+
+    <script>
+        function toggleSection(element) {
+            // Close all other collapsible sections
+            document.querySelectorAll('.collapsible').forEach(sec => {
+                if (sec !== element) {
+                    sec.classList.remove('active');
+                }
+            });
+            // Toggle clicked section
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
