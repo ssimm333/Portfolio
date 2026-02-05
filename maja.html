@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credits</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background-color: #f9f8f4;
+            overflow: hidden;
+        }
+
+        .dedication-container {
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        p {
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            color: var(--text-color);
+            margin-bottom: 40px;
+        }
+
+        .heart {
+            color: var(--accent-color);
+            font-size: 10rem;
+            animation: beat 1s infinite alternate;
+            display: inline-block;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #666;
+            border-bottom: 1px solid #666;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--text-color);
+            border-color: var(--text-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes beat {
+            to {
+                transform: scale(1.2);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dedication-container">
+        <div class="heart">❤️</div>
+        <h1>Dedicated to my lovely girlfriend Maja</h1>
+        <div class="maja-photo-container">
+            <img src="images/maja.jpeg" alt="Maja" class="maja-photo">
+        </div>
+        <p>For taking the cool photo.</p>
+        <a href="index.html" class="back-link">Return Home</a>
+    </div>
+    <style>
+        .maja-photo-container {
+            margin: 30px auto;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            animation-delay: 0.5s;
+        }
+
+        .maja-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</body>
+
+</html>

@@ -141,10 +141,44 @@ h2 {
     margin-bottom: 2rem;
     filter: grayscale(100%);
     /* Swiss style often uses B&W photography */
+    margin-bottom: 2rem;
+    filter: grayscale(100%);
+    /* Swiss style often uses B&W photography */
     transition: filter 0.3s ease;
 }
 
-.profile-img:hover {
+.image-wrapper {
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+}
+
+.credits-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(230, 32, 32, 0.9);
+    /* Swiss Red */
+    color: #fff;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    /* Prevent clicking when hidden */
+    z-index: 10;
+}
+
+.image-wrapper:hover .credits-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.image-wrapper:hover .profile-img {
     filter: grayscale(0%);
 }
 
