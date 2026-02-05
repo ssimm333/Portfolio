@@ -141,9 +141,6 @@ h2 {
     margin-bottom: 2rem;
     filter: grayscale(100%);
     /* Swiss style often uses B&W photography */
-    margin-bottom: 2rem;
-    filter: grayscale(100%);
-    /* Swiss style often uses B&W photography */
     transition: filter 0.3s ease;
 }
 
