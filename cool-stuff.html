@@ -25,15 +25,15 @@
             padding: 20px;
         }
 
-        #pendulumCanvas {
-            background: #f9f8f4;
-            border: 2px solid #1a1a1a;
+        canvas {
+            background: var(--bg-color) !important;
+            border: 1px solid var(--border-color) !important;
             border-radius: 4px;
             box-shadow: none;
             cursor: grab;
         }
 
-        #pendulumCanvas:active {
+        canvas:active {
             cursor: grabbing;
         }
 
@@ -45,7 +45,7 @@
             align-items: center;
             background: transparent;
             padding: 20px;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid var(--border-color);
             margin-top: 20px;
             width: 100%;
             max-width: 800px;
@@ -59,7 +59,7 @@
 
         .control-group label {
             font-size: 0.9em;
-            color: #1a1a1a;
+            color: var(--text-color);
             font-weight: 700;
             text-transform: uppercase;
         }
@@ -67,32 +67,36 @@
         .control-group input[type="range"] {
             width: 150px;
             cursor: pointer;
+            accent-color: var(--accent-color);
         }
 
         .control-group input[type="number"] {
             width: 80px;
             padding: 5px;
             border-radius: 0;
-            border: 1px solid #1a1a1a;
-            background: #fff;
-            color: #1a1a1a;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
             font-size: 0.9em;
         }
 
         button {
             padding: 10px 20px;
-            background: #1a1a1a;
-            color: #fff;
-            border: none;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
             border-radius: 0;
             cursor: pointer;
             font-weight: 700;
             text-transform: uppercase;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
 
         button:hover {
-            background: #e62020;
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #fff;
+            /* Always white on red accent */
             transform: none;
             box-shadow: none;
         }
@@ -103,7 +107,7 @@
 
         .info-text {
             text-align: left;
-            color: #1a1a1a;
+            color: var(--text-color);
             font-size: 0.9em;
             max-width: 600px;
         }
@@ -118,6 +122,7 @@
             width: 18px;
             height: 18px;
             cursor: pointer;
+            accent-color: var(--accent-color);
         }
 
         .collapsible-wrapper {
@@ -146,28 +151,27 @@
             align-items: center;
             cursor: pointer;
             padding-bottom: 10px;
-            border-bottom: 4px solid #1a1a1a;
+            border-bottom: 4px solid var(--border-color);
             margin-bottom: 0 !important;
-            /* Override standard section hover if needed */
         }
 
         .collapsible-header:hover h2 {
-            color: #e62020;
+            color: var(--accent-color);
         }
 
         .collapsible-header h2 {
             border-bottom: none;
-            /* Remove default H2 border to avoid double border */
             margin-bottom: 0;
             padding-bottom: 0;
             transition: color 0.2s;
+            color: var(--text-color);
         }
 
         .toggle-icon {
             width: 12px;
             height: 12px;
-            border-right: 3px solid #1a1a1a;
-            border-bottom: 3px solid #1a1a1a;
+            border-right: 3px solid var(--text-color);
+            border-bottom: 3px solid var(--text-color);
             transform: rotate(45deg);
             transition: transform 0.3s ease;
             margin-right: 10px;
@@ -175,17 +179,20 @@
 
         .collapsible.active .toggle-icon {
             transform: rotate(-135deg);
-            border-color: #e62020;
+            border-color: var(--accent-color);
         }
 
         .math-block {
             margin-top: 30px;
             padding: 20px;
-            background: #f0efe9;
-            /* Slightly darker than bg */
-            border-left: 4px solid #1a1a1a;
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent-color);
             font-family: 'Georgia', serif;
-            /* Serif for academic feel */
+            color: var(--text-color);
+            /* Add a border in light mode for better definition if needed, 
+                but card-bg change might be enough */
+            border: 1px solid var(--border-color);
+            border-left-width: 4px;
         }
 
         .math-title {
@@ -193,7 +200,7 @@
             font-weight: 700;
             font-size: 1.1rem;
             margin-bottom: 15px;
-            color: #1a1a1a;
+            color: var(--text-color);
         }
 
         .equation {
@@ -202,74 +209,37 @@
             font-size: 1.2rem;
             text-align: center;
             margin: 20px 0;
-            color: #1a1a1a;
+            color: var(--text-color);
         }
 
         .variable {
             font-weight: bold;
             font-family: 'Times New Roman', serif;
+            color: var(--text-color);
         }
     </style>
 </head>
 
 <body>
-    <div class="lang-switcher">
-        <button class="flag-btn" data-lang="en" title="English">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
-                <clipPath id="t">
-                    <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
-                </clipPath>
-                <path d="M0,0 v30 h60 v-30 z" fill="#00247d" />
-                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
-                <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#cf142b" stroke-width="4" />
-                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
-                <path d="M30,0 v30 M0,15 h60" stroke="#cf142b" stroke-width="6" />
-            </svg>
-        </button>
-        <button class="flag-btn" data-lang="ru" title="Русский">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" class="flag-icon">
-                <rect width="9" height="6" fill="#fff" />
-                <rect y="2" width="9" height="2" fill="#0039a6" />
-                <rect y="4" width="9" height="2" fill="#d52b1e" />
-            </svg>
-        </button>
-        <button class="flag-btn" data-lang="pt" title="Português">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 16" class="flag-icon">
-                <rect width="22" height="16" fill="#009c3b" />
-                <polygon points="11,2 19.5,8 11,14 2.5,8" fill="#ffdf00" />
-                <circle cx="11" cy="8" r="3.5" fill="#002776" />
-                <path d="M8,8 C8,8 10,9 14,7" stroke="#fff" stroke-width="0.5" fill="none" />
-            </svg>
-        </button>
-        <button class="flag-btn" data-lang="es" title="Español">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 15" class="flag-icon">
-                <rect width="21" height="15" fill="#AA151B" />
-                <rect y="3.75" width="21" height="7.5" fill="#F1BF00" />
-            </svg>
-        </button>
-    </div>
-
     <div class="grid-container">
-        <header class="header">
-            <h1 data-i18n="title">Stanislav<br>Simanovich</h1>
+
+
+
+        <header class="top-header">
+            <nav class="top-nav">
+                <ul>
+                    <li><a href="index.html" aria-label="Home"><svg class="home-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                            </svg></a></li>
+                    <li><a href="about.html" data-i18n="nav.about">About</a></li>
+                    <li><a href="work.html" data-i18n="nav.experience">Experience</a></li>
+                    <li><a href="cool-stuff.html" data-i18n="nav.coolStuff">Interactive Simulations</a></li>
+
+                </ul>
+                <button id="theme-toggle" title="Toggle Theme"></button>
+            </nav>
         </header>
-
-        <div class="sidebar-image">
-            <div class="image-wrapper">
-                <img src="images/me.jpg" alt="Stanislav Simanovich" class="profile-img">
-                <a href="maja.html" class="credits-overlay" data-i18n="credits.overlay">Credits</a>
-            </div>
-        </div>
-
-        <nav class="nav">
-            <ul>
-                <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
-                <li><a href="index.html#work" data-i18n="nav.work">Work</a></li>
-                <li><a href="index.html#education" data-i18n="nav.education">Education</a></li>
-                <li><a href="cool-stuff.html" data-i18n="nav.coolstuff">Interactive Simulations</a></li>
-                <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
-            </ul>
-        </nav>
 
         <main class="main-content">
             <section class="section collapsible active">
@@ -377,8 +347,7 @@
                         </div>
 
                         <div class="pendulum-container">
-                            <canvas id="pidCanvas" width="800" height="300"
-                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: default;"></canvas>
+                            <canvas id="pidCanvas" width="800" height="300"></canvas>
 
                             <div class="controls">
                                 <div class="control-group">
@@ -442,8 +411,7 @@
                         </div>
 
                         <div class="pendulum-container">
-                            <canvas id="fourierCanvas" width="800" height="500"
-                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: crosshair; touch-action: none;"></canvas>
+                            <canvas id="fourierCanvas" width="800" height="500"></canvas>
                         </div>
 
                         <div class="math-block">
@@ -489,8 +457,7 @@
                         </div>
 
                         <div class="pendulum-container">
-                            <canvas id="lorenzCanvas" width="800" height="600"
-                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: move;"></canvas>
+                            <canvas id="lorenzCanvas" width="800" height="600"></canvas>
 
                             <div class="controls">
                                 <div class="control-group">
@@ -549,8 +516,7 @@
                         </div>
 
                         <div class="pendulum-container">
-                            <canvas id="golCanvas" width="800" height="500"
-                                style="background: #f9f8f4; border: 2px solid #1a1a1a; cursor: pointer;"></canvas>
+                            <canvas id="golCanvas" width="800" height="500"></canvas>
 
                             <div class="controls">
                                 <button id="gol-run">Run</button>
@@ -583,11 +549,9 @@
 
         </main>
 
-        <footer class="footer">
-            <p>Stanislav Simanovich &copy;</p>
-        </footer>
     </div>
-    <script src="translations.js"></script>
+
+    <script src="theme.js"></script>
     <script src="pendulum.js"></script>
     <script src="pid.js"></script>
     <script src="fourier.js"></script>

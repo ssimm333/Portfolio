@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experience - Portfolio</title>
+    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="timeline-styles.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+    <div class="grid-container">
+
+
+
+
+
+
+        <header class="top-header">
+            <nav class="top-nav">
+                <ul>
+                    <li><a href="index.html" aria-label="Home"><svg class="home-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                            </svg></a></li>
+                    <li><a href="about.html" data-i18n="nav.about">About</a></li>
+                    <li><a href="work.html" data-i18n="nav.experience">Experience</a></li>
+                    <li><a href="cool-stuff.html" data-i18n="nav.coolStuff">Interactive Simulations</a></li>
+
+                </ul>
+                <button id="theme-toggle" title="Toggle Theme"></button>
+            </nav>
+        </header>
+
+        <main class="main-content">
+            <section id="experience" class="section">
+                <h2>Experience</h2>
+
+                <div class="timeline-container">
+                    <!-- Education Card (Above Timeline) -->
+                    <div class="timeline-card timeline-card-top" data-start="2023" data-end="2027">
+                        <div class="card-content">
+                            <img src="images/ul_logo.png" alt="University of Limerick" class="card-logo">
+                            <div class="card-info">
+                                <h3>University of Limerick</h3>
+                                <p class="card-role">MEng - Digital Mechatronics Engineering</p>
+                                <p class="card-date">2023 - 2027</p>
+                            </div>
+                        </div>
+                        <ul class="card-details">
+                            <li>Control Systems</li>
+                            <li>Electronics</li>
+                            <li>Embedded Systems</li>
+                            <li>Mathematics</li>
+                            <li>CAD Design</li>
+                        </ul>
+                    </div>
+
+                    <!-- Timeline Bar with Years -->
+                    <div class="timeline-bar">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-years">
+                            <span class="year-marker" data-year="2005">2005</span>
+                            <span class="year-marker" data-year="2010">2010</span>
+                            <span class="year-marker" data-year="2015">2015</span>
+                            <span class="year-marker" data-year="2020">2020</span>
+                            <span class="year-marker" data-year="2023">2023</span>
+                            <span class="year-marker" data-year="2025">2025</span>
+                            <span class="year-marker" data-year="2026">2026</span>
+                        </div>
+                        <div class="timeline-highlight" id="education-highlight"></div>
+                        <div class="timeline-highlight" id="work-highlight"></div>
+                    </div>
+
+                    <!-- Work Card (Below Timeline) -->
+                    <div class="timeline-card timeline-card-bottom" data-start="2025" data-end="2026">
+                        <div class="card-content">
+                            <img src="images/Analog_Devices_Logo.svg.png" alt="ADI Logo" class="card-logo">
+                            <div class="card-info">
+                                <h3>Analog Devices International</h3>
+                                <p class="card-role">Data Center and Energy Applications Department Intern</p>
+                                <p class="card-date">2025 - 2026</p>
+                            </div>
+                        </div>
+                        <ul class="card-details">
+                            <li>Test Automation and Analysis</li>
+                            <li>EDA Schematic and Layout</li>
+                            <li>EDA Software Plugin Development</li>
+                            <li>CAD Design</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Subtle timeline hover interactions
+        const cards = document.querySelectorAll('.timeline-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                const start = parseInt(this.dataset.start);
+                const end = parseInt(this.dataset.end);
+
+                // Subtly highlight year markers in range
+                document.querySelectorAll('.year-marker').forEach(marker => {
+                    const year = parseInt(marker.dataset.year);
+                    if (year >= start && year <= end) {
+                        marker.classList.add('highlighted');
+                    }
+                });
+            });
+
+            card.addEventListener('mouseleave', function () {
+                document.querySelectorAll('.year-marker').forEach(marker => {
+                    marker.classList.remove('highlighted');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

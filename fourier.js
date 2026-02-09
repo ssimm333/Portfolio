@@ -36,16 +36,35 @@ class FourierSimulation {
         this.isMouseDown = false;
 
         // Colors
-        this.colors = {
-            bg: '#f9f8f4',
-            line: '#1a1a1a',
-            accent: '#e62020',
-            epicycle: 'rgba(26, 26, 26, 0.1)',
-            epicycleLine: 'rgba(26, 26, 26, 0.3)'
-        };
+        this.updateThemeColors(ThemeManager.currentTheme);
+
+        window.addEventListener('themeChanged', (e) => {
+            this.updateThemeColors(e.detail.theme);
+            if (this.state !== 'ANIMATING') this.drawLoop(0); // Redraw
+        });
 
         this.setupEventListeners();
         this.draw(); // Initial draw
+    }
+
+    updateThemeColors(theme) {
+        if (theme === 'light') {
+            this.colors = {
+                bg: '#f9f8f4',
+                line: '#1a1a1a',
+                accent: '#e62020',
+                epicycle: 'rgba(26, 26, 26, 0.1)',
+                epicycleLine: 'rgba(26, 26, 26, 0.3)'
+            };
+        } else {
+            this.colors = {
+                bg: '#0a0a0a',
+                line: '#ffffff',
+                accent: '#e62020',
+                epicycle: 'rgba(255, 255, 255, 0.1)',
+                epicycleLine: 'rgba(255, 255, 255, 0.3)'
+            };
+        }
     }
 
     setupEventListeners() {

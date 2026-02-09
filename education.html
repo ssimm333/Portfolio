@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education - Portfolio</title>
+    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+    <div class="grid-container">
+
+
+
+
+
+        <header class="top-header">
+            <nav class="top-nav">
+                <ul>
+                    <li><a href="index.html" aria-label="Home"><svg class="home-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                            </svg></a></li>
+                    <li><a href="about.html" data-i18n="nav.about">About</a></li>
+                    <li><a href="work.html" data-i18n="nav.work">Work</a></li>
+                    <li><a href="education.html" data-i18n="nav.education">Education</a></li>
+
+                    <li><a href="cool-stuff.html" data-i18n="nav.coolStuff">Interactive Simulations</a></li>
+
+
+                </ul>
+                <button id="theme-toggle" title="Toggle Theme"></button>
+            </nav>
+        </header>
+
+        <div class="bauhaus-strip left">
+            <div class="bauhaus-pattern-triangles"></div>
+        </div>
+
+        <div class="bauhaus-strip right">
+            <div class="bauhaus-pattern-triangles"></div>
+        </div>
+
+        <main class="main-content">
+            <section id="education" class="section">
+                <h2 data-i18n="edu.title">Education</h2>
+                <div class="content-block about-container">
+                    <img src="images/ul_logo.png" alt="University of Limerick" class="company-logo">
+                    <div class="education">
+                        <h3>University of Limerick</h3>
+                        <p data-i18n="edu.ul.role">3° Year MEng - Digital Mechatronics Engineering</p>
+                    </div>
+                </div>
+                <ul>
+                    <li data-i18n="edu.list.5">Control Systems</li>
+                    <li data-i18n="edu.list.6">Electronics</li>
+                    <li data-i18n="edu.list.7">Embedded Systems</li>
+                    <li data-i18n="edu.list.8">Mathematics</li>
+                    <li data-i18n="edu.list.10">CAD Design</li>
+                </ul>
+            </section>
+        </main>
+
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

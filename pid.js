@@ -75,18 +75,43 @@ class PIDSimulation {
         this.lastTime = 0;
 
         // Visual Constants
-        this.colors = {
-            bg: '#f9f8f4',
-            text: '#1a1a1a',
-            target: '#e62020', // Red
-            output: '#1a1a1a', // Black
-            grid: '#e0e0e0'
-        };
+        this.updateThemeColors(ThemeManager.currentTheme);
+
+        // Listen for theme changes
+        window.addEventListener('themeChanged', (e) => {
+            this.updateThemeColors(e.detail.theme);
+            if (!this.isDragging) this.draw();
+        });
 
         this.setupEventListeners();
     }
 
+    updateThemeColors(theme) {
+        if (theme === 'light') {
+            this.colors = {
+                bg: '#f9f8f4',
+                text: '#1a1a1a',
+                target: '#e62020', // Red
+                output: '#1a1a1a', // Black
+                grid: '#e0e0e0',
+                graphBg: '#ffffff',
+                graphGrid: '#eeeeee'
+            };
+        } else {
+            this.colors = {
+                bg: '#0a0a0a',
+                text: '#ffffff',
+                target: '#e62020', // Red
+                output: '#ffffff', // White
+                grid: '#333333',
+                graphBg: '#111111',
+                graphGrid: '#444444'
+            };
+        }
+    }
+
     setupEventListeners() {
+        // ... (standard listeners) ...
         // Mouse Events
         this.canvas.addEventListener('mousedown', (e) => this.handleInputStart(e));
         this.canvas.addEventListener('mousemove', (e) => this.handleInputMove(e));
@@ -231,7 +256,7 @@ class PIDSimulation {
 
     drawGraph(x, y, w, h) {
         // Background
-        this.ctx.fillStyle = '#fff';
+        this.ctx.fillStyle = this.colors.graphBg; // Dark graph bg
         this.ctx.fillRect(x, y, w, h);
         this.ctx.strokeStyle = this.colors.grid;
         this.ctx.strokeRect(x, y, w, h);
@@ -240,7 +265,7 @@ class PIDSimulation {
         this.ctx.beginPath();
         this.ctx.moveTo(x, y + h / 2);
         this.ctx.lineTo(x + w, y + h / 2);
-        this.ctx.strokeStyle = '#eee';
+        this.ctx.strokeStyle = this.colors.graphGrid;
         this.ctx.stroke();
 
         this.ctx.save();

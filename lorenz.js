@@ -31,6 +31,20 @@ class LorenzSimulation {
         this.colorBase = { h: 0, s: 86, l: 51 }; // Swiss Red approx HSL
 
         this.setupEventListeners();
+
+        // Initialize theme constants
+        if (window.ThemeManager) {
+            this.updateThemeColors(ThemeManager.currentTheme);
+        } else {
+            // Fallback if ThemeManager isn't ready yet or not found
+            this.updateThemeColors('light');
+        }
+
+        window.addEventListener('themeChanged', (e) => {
+            this.updateThemeColors(e.detail.theme);
+            if (!this.isDragging) this.draw();
+        });
+
         this.animate();
     }
 
@@ -91,6 +105,16 @@ class LorenzSimulation {
         };
     }
 
+    updateThemeColors(theme) {
+        if (theme === 'light') {
+            this.bgColor = '#f9f8f4';
+            this.headColor = '#1a1a1a';
+        } else {
+            this.bgColor = '#0a0a0a';
+            this.headColor = '#ffffff';
+        }
+    }
+
     reset() {
         this.x = 0.1;
         this.y = 0;
@@ -138,7 +162,8 @@ class LorenzSimulation {
     }
 
     draw() {
-        this.ctx.fillStyle = '#f9f8f4';
+        // Clear background
+        this.ctx.fillStyle = this.bgColor;
         this.ctx.fillRect(0, 0, this.width, this.height);
 
         // Draw axes helper? Maybe too cluttered.
@@ -162,7 +187,7 @@ class LorenzSimulation {
         const last = this.points[this.points.length - 1];
         if (last) {
             const p = this.project(last.x, last.y, last.z);
-            this.ctx.fillStyle = '#1a1a1a';
+            this.ctx.fillStyle = this.headColor;
             this.ctx.beginPath();
             this.ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
             this.ctx.fill();

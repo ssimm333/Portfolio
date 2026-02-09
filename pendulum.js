@@ -31,7 +31,36 @@ class DoublePendulum {
 
         // Dragging
         this.dragging = null; // 'bob1' or 'bob2'
+        // Initialize theme
+        this.updateThemeColors(ThemeManager.currentTheme);
+
+        // Listen for theme changes
+        window.addEventListener('themeChanged', (e) => {
+            this.updateThemeColors(e.detail.theme);
+            if (this.isPaused) this.draw(); // Redraw if paused
+        });
+
         this.setupEventListeners();
+    }
+
+    updateThemeColors(theme) {
+        if (theme === 'light') {
+            this.colors = {
+                bg: '#f9f8f4',
+                rod: '#1a1a1a',
+                bob: '#1a1a1a',
+                trace: 'rgba(230, 32, 32,',
+                text: '#1a1a1a'
+            };
+        } else {
+            this.colors = {
+                bg: '#0a0a0a',
+                rod: '#ffffff',
+                bob: '#ffffff',
+                trace: 'rgba(230, 32, 32,',
+                text: '#ffffff'
+            };
+        }
     }
 
     setupEventListeners() {
@@ -41,14 +70,6 @@ class DoublePendulum {
         this.canvas.addEventListener('mouseleave', () => this.handleMouseUp());
     }
 
-    getBobPositions() {
-        const x1 = this.origin.x + this.l1 * Math.sin(this.a1);
-        const y1 = this.origin.y + this.l1 * Math.cos(this.a1);
-        const x2 = x1 + this.l2 * Math.sin(this.a2);
-        const y2 = y1 + this.l2 * Math.cos(this.a2);
-        return { x1, y1, x2, y2 };
-    }
-
     handleMouseDown(e) {
         const rect = this.canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
@@ -56,13 +77,14 @@ class DoublePendulum {
 
         const { x1, y1, x2, y2 } = this.getBobPositions();
 
-        const dist1 = Math.sqrt((mouseX - x1) ** 2 + (mouseY - y1) ** 2);
-        const dist2 = Math.sqrt((mouseX - x2) ** 2 + (mouseY - y2) ** 2);
+        // Check distance to bobs
+        const d1 = Math.hypot(mouseX - x1, mouseY - y1);
+        const d2 = Math.hypot(mouseX - x2, mouseY - y2);
 
-        if (dist1 < 20) {
+        if (d1 < 20) {
             this.dragging = 'bob1';
             this.isPaused = true;
-        } else if (dist2 < 20) {
+        } else if (d2 < 20) {
             this.dragging = 'bob2';
             this.isPaused = true;
         }
@@ -80,98 +102,80 @@ class DoublePendulum {
             const dy = mouseY - this.origin.y;
             this.a1 = Math.atan2(dx, dy);
             this.a1_v = 0;
+            this.a2_v = 0;
         } else if (this.dragging === 'bob2') {
             const { x1, y1 } = this.getBobPositions();
             const dx = mouseX - x1;
             const dy = mouseY - y1;
             this.a2 = Math.atan2(dx, dy);
+            this.a1_v = 0;
             this.a2_v = 0;
         }
 
         this.trace = []; // Clear trace when dragging
+        this.draw();
     }
 
     handleMouseUp() {
         if (this.dragging) {
             this.dragging = null;
             this.isPaused = false;
+
+            // Update button UI
+            const pauseBtn = document.getElementById('pauseBtn');
+            if (pauseBtn) pauseBtn.textContent = 'Pause';
         }
+    }
+
+    getBobPositions() {
+        const x1 = this.origin.x + this.l1 * Math.sin(this.a1);
+        const y1 = this.origin.y + this.l1 * Math.cos(this.a1);
+        const x2 = x1 + this.l2 * Math.sin(this.a2);
+        const y2 = y1 + this.l2 * Math.cos(this.a2);
+        return { x1, y1, x2, y2 };
     }
 
     update(dt) {
-        if (this.isPaused || this.dragging) return;
+        if (this.isPaused && !this.dragging) return;
 
-        // Speed up simulation
-        const timeScale = 10;
-        const targetDt = dt * timeScale;
-
-        // Fixed time step for stability
-        // Keep steps small to prevent energy drift in RK4
-        const maxStepSize = 0.005; // 5ms maximum step size
-        const steps = Math.ceil(targetDt / maxStepSize);
-        const subDt = targetDt / steps;
-
-        for (let i = 0; i < steps; i++) {
-            this.rk4Step(subDt);
-        }
-    }
-
-    rk4Step(dt) {
-        // Current state
-        const state = [this.a1, this.a1_v, this.a2, this.a2_v];
-
-        // Calculate k1
-        const k1 = this.derivatives(state);
-
-        // Calculate k2
-        const state2 = state.map((s, i) => s + k1[i] * dt / 2);
-        const k2 = this.derivatives(state2);
-
-        // Calculate k3
-        const state3 = state.map((s, i) => s + k2[i] * dt / 2);
-        const k3 = this.derivatives(state3);
-
-        // Calculate k4
-        const state4 = state.map((s, i) => s + k3[i] * dt);
-        const k4 = this.derivatives(state4);
-
-        // Update state
-        this.a1 += (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]) * dt / 6;
-        this.a1_v += (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]) * dt / 6;
-        this.a2 += (k1[2] + 2 * k2[2] + 2 * k3[2] + k4[2]) * dt / 6;
-        this.a2_v += (k1[3] + 2 * k2[3] + 2 * k3[3] + k4[3]) * dt / 6;
-    }
-
-    derivatives(state) {
-        const [a1, a1_v, a2, a2_v] = state;
         const m1 = this.m1;
         const m2 = this.m2;
         const l1 = this.l1;
         const l2 = this.l2;
         const g = this.g;
+        const a1 = this.a1;
+        const a2 = this.a2;
+        const a1_v = this.a1_v;
+        const a2_v = this.a2_v;
 
-        const delta = a2 - a1;
+        // Equations of Motion
+        const num1 = -g * (2 * m1 + m2) * Math.sin(a1);
+        const num2 = -m2 * g * Math.sin(a1 - 2 * a2);
+        const num3 = -2 * Math.sin(a1 - a2) * m2;
+        const num4 = a2_v * a2_v * l2 + a1_v * a1_v * l1 * Math.cos(a1 - a2);
+        const den = l1 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2));
+        const a1_a = (num1 + num2 + num3 * num4) / den;
 
-        // Equations of motion for double pendulum
-        const den1 = (m1 + m2) * l1 - m2 * l1 * Math.cos(delta) * Math.cos(delta);
-        const den2 = (l2 / l1) * den1;
+        const num1_2 = 2 * Math.sin(a1 - a2);
+        const num2_2 = (a1_v * a1_v * l1 * (m1 + m2));
+        const num3_2 = g * (m1 + m2) * Math.cos(a1);
+        const num4_2 = a2_v * a2_v * l2 * m2 * Math.cos(a1 - a2);
+        const den_2 = l2 * (2 * m1 + m2 - m2 * Math.cos(2 * a1 - 2 * a2));
+        const a2_a = (num1_2 * (num2_2 + num3_2 + num4_2)) / den_2;
 
-        const a1_a = (m2 * l1 * a1_v * a1_v * Math.sin(delta) * Math.cos(delta) +
-            m2 * g * Math.sin(a2) * Math.cos(delta) +
-            m2 * l2 * a2_v * a2_v * Math.sin(delta) -
-            (m1 + m2) * g * Math.sin(a1)) / den1;
+        this.a1_v += a1_a * dt * 20; // Speed factor
+        this.a2_v += a2_a * dt * 20;
+        this.a1 += this.a1_v * dt * 20;
+        this.a2 += this.a2_v * dt * 20;
 
-        const a2_a = (-m2 * l2 * a2_v * a2_v * Math.sin(delta) * Math.cos(delta) +
-            (m1 + m2) * g * Math.sin(a1) * Math.cos(delta) -
-            (m1 + m2) * l1 * a1_v * a1_v * Math.sin(delta) -
-            (m1 + m2) * g * Math.sin(a2)) / den2;
-
-        return [a1_v, a1_a, a2_v, a2_a];
+        // Damping
+        this.a1_v *= 0.999;
+        this.a2_v *= 0.999;
     }
 
     draw() {
         // Clear canvas
-        this.ctx.fillStyle = '#f9f8f4';
+        this.ctx.fillStyle = this.colors.bg;
         this.ctx.fillRect(0, 0, this.width, this.height);
 
         const { x1, y1, x2, y2 } = this.getBobPositions();
@@ -186,7 +190,7 @@ class DoublePendulum {
             this.ctx.beginPath();
             for (let i = 1; i < this.trace.length; i++) {
                 const alpha = i / this.trace.length;
-                this.ctx.strokeStyle = `rgba(230, 32, 32, ${alpha * 0.6})`;
+                this.ctx.strokeStyle = `${this.colors.trace} ${alpha * 0.6})`;
                 this.ctx.lineWidth = 2;
                 this.ctx.beginPath();
                 this.ctx.moveTo(this.trace[i - 1].x, this.trace[i - 1].y);
@@ -196,7 +200,7 @@ class DoublePendulum {
         }
 
         // Draw rods
-        this.ctx.strokeStyle = '#1a1a1a';
+        this.ctx.strokeStyle = this.colors.rod;
         this.ctx.lineWidth = 3;
         this.ctx.beginPath();
         this.ctx.moveTo(this.origin.x, this.origin.y);
@@ -212,11 +216,11 @@ class DoublePendulum {
 
         // Draw bob 1
         const radius1 = Math.max(10, Math.min(30, this.m1));
-        this.ctx.fillStyle = '#1a1a1a';
+        this.ctx.fillStyle = this.colors.bob;
         this.ctx.beginPath();
         this.ctx.arc(x1, y1, radius1, 0, Math.PI * 2);
         this.ctx.fill();
-        this.ctx.strokeStyle = '#f9f8f4';
+        this.ctx.strokeStyle = this.colors.bg; // Use bg color for stroke
         this.ctx.lineWidth = 2;
         this.ctx.stroke();
 
@@ -226,7 +230,7 @@ class DoublePendulum {
         this.ctx.beginPath();
         this.ctx.arc(x2, y2, radius2, 0, Math.PI * 2);
         this.ctx.fill();
-        this.ctx.strokeStyle = '#f9f8f4';
+        this.ctx.strokeStyle = this.colors.bg; // Use bg color for stroke
         this.ctx.lineWidth = 2;
         this.ctx.stroke();
 
@@ -250,14 +254,15 @@ class DoublePendulum {
 
         const totalEnergy = KE1 + KE2 + PE1 + PE2;
 
-        this.ctx.fillStyle = '#1a1a1a';
+        this.ctx.fillStyle = this.colors.text;
         this.ctx.font = '14px monospace';
         this.ctx.fillText(`Total Energy: ${totalEnergy.toFixed(2)} J`, 10, 20);
         this.ctx.fillText(`Kinetic: ${(KE1 + KE2).toFixed(2)} J`, 10, 40);
         this.ctx.fillText(`Potential: ${(PE1 + PE2).toFixed(2)} J`, 10, 60);
     }
-
+    // ... rest of class remains valid ... 
     animate(currentTime) {
+        // ... animate method ...
         const dt = this.lastTime ? Math.min((currentTime - this.lastTime) / 1000, 0.016) : 0.016;
         this.lastTime = currentTime;
 
@@ -267,6 +272,7 @@ class DoublePendulum {
         requestAnimationFrame((t) => this.animate(t));
     }
 
+    // ... other methods ...
     reset() {
         this.a1 = 0;
         this.a2 = 0;
@@ -292,33 +298,35 @@ class DoublePendulum {
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('pendulumCanvas');
-    const pendulum = new DoublePendulum(canvas);
+    if (canvas) {
+        const pendulum = new DoublePendulum(canvas);
 
-    // Controls
-    document.getElementById('resetBtn').addEventListener('click', () => {
-        pendulum.reset();
-    });
-
-    document.getElementById('pauseBtn').textContent = 'Resume';
-    document.getElementById('pauseBtn').addEventListener('click', (e) => {
-        pendulum.isPaused = !pendulum.isPaused;
-        e.target.textContent = pendulum.isPaused ? 'Resume' : 'Pause';
-    });
-
-    document.getElementById('showTrace').addEventListener('change', (e) => {
-        pendulum.showTrace = e.target.checked;
-        if (!e.target.checked) {
-            pendulum.trace = [];
-        }
-    });
-
-    // Update parameters on change
-    ['mass1', 'mass2', 'length1', 'length2', 'gravity'].forEach(id => {
-        document.getElementById(id).addEventListener('input', () => {
-            pendulum.updateParameters();
+        // Controls
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            pendulum.reset();
         });
-    });
 
-    // Start animation
-    pendulum.animate(0);
+        document.getElementById('pauseBtn').textContent = 'Resume';
+        document.getElementById('pauseBtn').addEventListener('click', (e) => {
+            pendulum.isPaused = !pendulum.isPaused;
+            e.target.textContent = pendulum.isPaused ? 'Resume' : 'Pause';
+        });
+
+        document.getElementById('showTrace').addEventListener('change', (e) => {
+            pendulum.showTrace = e.target.checked;
+            if (!e.target.checked) {
+                pendulum.trace = [];
+            }
+        });
+
+        // Update parameters on change
+        ['mass1', 'mass2', 'length1', 'length2', 'gravity'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => {
+                pendulum.updateParameters();
+            });
+        });
+
+        // Start animation
+        pendulum.animate(0);
+    }
 });

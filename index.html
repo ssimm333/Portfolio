@@ -9,160 +9,54 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 
-<body>
-    <div class="lang-switcher">
-        <button class="flag-btn" data-lang="en" title="English">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
-                <clipPath id="t">
-                    <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
-                </clipPath>
-                <path d="M0,0 v30 h60 v-30 z" fill="#00247d" />
-                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
-                <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#cf142b" stroke-width="4" />
-                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
-                <path d="M30,0 v30 M0,15 h60" stroke="#cf142b" stroke-width="6" />
-            </svg>
-        </button>
-        <button class="flag-btn" data-lang="ru" title="Русский">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" class="flag-icon">
-                <rect width="9" height="6" fill="#fff" />
-                <rect y="2" width="9" height="2" fill="#0039a6" />
-                <rect y="4" width="9" height="2" fill="#d52b1e" />
-            </svg>
-        </button>
-        <button class="flag-btn" data-lang="pt" title="Português">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 16" class="flag-icon">
-                <rect width="22" height="16" fill="#009c3b" />
-                <polygon points="11,2 19.5,8 11,14 2.5,8" fill="#ffdf00" />
-                <circle cx="11" cy="8" r="3.5" fill="#002776" />
-                <path d="M8,8 C8,8 10,9 14,7" stroke="#fff" stroke-width="0.5" fill="none" />
-            </svg>
-        </button>
-        <button class="flag-btn" data-lang="es" title="Español">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 15" class="flag-icon">
-                <rect width="21" height="15" fill="#AA151B" />
-                <rect y="3.75" width="21" height="7.5" fill="#F1BF00" />
-            </svg>
-        </button>
-    </div>
-
-    <div class="grid-container">
-        <header class="header">
-            <h1 data-i18n="title">Stanislav<br>Simanovich</h1>
-        </header>
-
-        <div class="sidebar-image">
-            <div class="image-wrapper">
-                <img src="images/me.jpg" alt="Stanislav Simanovich" class="profile-img">
-                <a href="maja.html" class="credits-overlay" data-i18n="credits.overlay">Credits</a>
-            </div>
-        </div>
-
-        <nav class="nav">
+<body class="landing-page">
+    <!-- Top Grid Row: Navigation -->
+    <header class="top-header">
+        <nav class="top-nav">
             <ul>
-                <li><a href="#about" data-i18n="nav.about">About</a></li>
-                <li><a href="#work" data-i18n="nav.work">Work</a></li>
-                <li><a href="#education" data-i18n="nav.education">Education</a></li>
-                <li><a href="cool-stuff.html" data-i18n="nav.coolstuff">Interactive Simulations</a></li>
-                <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+                <li><a href="index.html" aria-label="Home"><svg class="home-icon" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                        </svg></a></li>
+                <li><a href="about.html" data-i18n="nav.about">About</a></li>
+                <li><a href="work.html" data-i18n="nav.experience">Experience</a></li>
+                <li><a href="cool-stuff.html" data-i18n="nav.coolStuff">Interactive Simulations</a></li>
+
+
             </ul>
+            <button id="theme-toggle" title="Toggle Theme"></button>
         </nav>
+    </header>
 
-        <main class="main-content">
-            <section id="about" class="section">
-                <h2 data-i18n="about.title">About</h2>
-                <div class="content-block">
-                    <p class="lead" data-i18n="about.lead">Hi! I'm Stas. I'm a 20 year old from Ireland.</p>
-                    <p data-i18n="about.p1">I’m an engineering student with a strong interest in building systems and
-                        understanding
-                        how hardware and software interact at a low level.</p>
-                    <p data-i18n="about.p2">I enjoy working on hands-on projects, particularly those involving embedded
-                        systems,
-                        microcontrollers, and problem-solving through testing and iteration. I’m motivated by learning
-                        how things work under the hood and applying theory to real-world scenarios.</p>
-                    <p data-i18n="about.p3">This website serves as a personal portfolio to document my projects,
-                        development, and interests
-                        as I continue to build my technical skills.</p>
-                    <p data-i18n="about.p4">Outside of technical work, I enjoy staying curious, learning new tools,
-                        playing the guitar (7
-                        string) and cooking.</p>
-                </div>
-            </section>
+    <!-- Middle Grid Row: Hero -->
+    <main class="lp-main">
+        <div class="lp-hero-text">
+            <h1 data-i18n="title">STANISLAV<br>SIMANOVICH</h1>
+        </div>
+        <div class="lp-graphic">
+            <div class="red-arch"></div>
+        </div>
+    </main>
 
-            <section id="work" class="section">
-                <h2 data-i18n="work.title">Work</h2>
-                <div class="project-grid">
-                    <article class="project-item">
-                        <img src="images/Analog_Devices_Logo.svg.png" alt="ADI Logo" class="company-logo">
-                        <div class="project-details">
-                            <h3>Analog Devices International</h3>
-                            <p data-i18n="work.adi.role">Data Center and Energy Applications Department</p>
-                        </div>
-                    </article>
-                </div>
-                <ul>
-                    <li data-i18n="work.adi.list.1">Test Automation and Analysis</li>
-                    <li data-i18n="work.adi.list.2">EDA Schematic and Layout</li>
-                    <li data-i18n="work.adi.list.3">EDA Software Plugin Development</li>
-                    <li data-i18n="work.adi.list.4">CAD Design</li>
-                </ul>
-
-                <div class="project-grid" style="margin-top: 40px;">
-                    <article class="project-item">
-                        <img src="images/conack_logo.png" alt="Conack Logo" class="company-logo">
-                        <div class="project-details">
-                            <h3>Conack Construction</h3>
-                            <p data-i18n="work.conack.role">General Operative</p>
-                        </div>
-                    </article>
-                </div>
-                <ul>
-                    <li data-i18n="work.conack.list.1">Housekeeping</li>
-                    <li data-i18n="work.conack.list.2">Delivery of goods</li>
-                    <li data-i18n="work.conack.list.3">Painting</li>
-                    <li data-i18n="work.conack.list.4">Plumbing</li>
-                    <li data-i18n="work.conack.list.5">Bricklaying</li>
-                </ul>
-            </section>
-
-            <section id="education" class="section">
-                <h2 data-i18n="edu.title">Education</h2>
-                <div class="content-block about-container">
-                    <img src="images/ul_logo.png" alt="University of Limerick" class="company-logo">
-                    <div class="education">
-                        <h3>University of Limerick</h3>
-                        <p data-i18n="edu.ul.role">3° Year MEng - Digital Mechatronics Engineering</p>
-                    </div>
-                </div>
-                <ul>
-                    <li data-i18n="edu.list.1">Static and Dynamic Mechanics</li>
-                    <li data-i18n="edu.list.2">Mechanics of Solids</li>
-                    <li data-i18n="edu.list.3">Thermal Dynamics</li>
-                    <li data-i18n="edu.list.4">Fluid Dynamics</li>
-                    <li data-i18n="edu.list.5">Control Systems</li>
-                    <li data-i18n="edu.list.6">Electronics</li>
-                    <li data-i18n="edu.list.7">Embedded Systems</li>
-                    <li data-i18n="edu.list.8">Mathematics</li>
-                    <li data-i18n="edu.list.9">Statistics</li>
-                    <li data-i18n="edu.list.10">CAD Design</li>
-                </ul>
-            </section>
-
-            <section id="contact" class="section">
-                <h2 data-i18n="contact.title">Contact</h2>
-                <div class="content-block">
-                    <a href="https://www.linkedin.com/in/stanislav-simanovich-474133298" class="cta-link"
-                        target="_blank">LinkedIn</a>
-                </div>
-            </section>
-        </main>
-
-        <footer class="footer">
+    <!-- Bottom Grid Row: Footer -->
+    <footer class="lp-footer">
+        <div class="lp-footer-col">
             <p>Stanislav Simanovich &copy;</p>
-        </footer>
-    </div>
-    <script src="translations.js"></script>
-    <script src="script.js"></script>
+        </div>
+        <div class="lp-footer-col">
+            <a href="https://www.linkedin.com/in/stanislav-simanovich-474133298" target="_blank" aria-label="LinkedIn"
+                class="social-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+
+
+    <script src="theme.js"></script>
 </body>
 
 </html>

@@ -18,34 +18,54 @@ class GameOfLife {
         this.fps = 15; // Limit speed for nice visualization
         this.interval = 1000 / this.fps;
 
-        this.colors = {
-            bg: '#f9f8f4',
-            alive: '#1a1a1a',
-            dead: '#f9f8f4',
-            grid: '#e0dfdb'
-        };
+        // Initialize theme constants
+        this.updateThemeColors(ThemeManager.currentTheme);
+        window.addEventListener('themeChanged', (e) => {
+            this.updateThemeColors(e.detail.theme);
+            this.draw();
+        });
 
-        this.randomize();
         this.setupEventListeners();
-        this.draw(); // Initial draw
+        this.init();
+    }
+
+    updateThemeColors(theme) {
+        if (theme === 'light') {
+            this.colors = {
+                bg: '#f9f8f4',
+                alive: '#e62020', // Red cells in light mode? Or black? Let's go red
+                dead: '#f9f8f4',
+                grid: '#e0e0e0'
+            };
+        } else {
+            this.colors = {
+                bg: '#0a0a0a',
+                alive: '#ffffff',
+                dead: '#0a0a0a',
+                grid: '#333333'
+            };
+        }
+    }
+
+    init() {
+        this.grid = this.createGrid();
+        // Randomize initial state
+        this.randomize();
+        this.draw();
         this.animate(0);
     }
 
     createGrid() {
-        let arr = new Array(this.cols);
-        for (let i = 0; i < this.cols; i++) {
-            arr[i] = new Array(this.rows).fill(0); // 0 = Dead, 1 = Alive
-        }
-        return arr;
+        return new Array(this.cols).fill(null)
+            .map(() => new Array(this.rows).fill(0));
     }
 
     randomize() {
         for (let i = 0; i < this.cols; i++) {
             for (let j = 0; j < this.rows; j++) {
-                this.grid[i][j] = Math.random() > 0.8 ? 1 : 0; // 20% Alive initially
+                this.grid[i][j] = Math.random() > 0.85 ? 1 : 0;
             }
         }
-        this.draw();
     }
 
     clear() {
