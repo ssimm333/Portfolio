@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cool Stuff - Portfolio</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
     <!-- MathJax for rendering equations -->
     <script>
         MathJax = {
@@ -212,38 +212,74 @@
 </head>
 
 <body>
+    <div class="lang-switcher">
+        <button class="flag-btn" data-lang="en" title="English">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" class="flag-icon">
+                <clipPath id="t">
+                    <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
+                </clipPath>
+                <path d="M0,0 v30 h60 v-30 z" fill="#00247d" />
+                <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6" />
+                <path d="M0,0 L60,30 M60,0 L0,30" clip-path="url(#t)" stroke="#cf142b" stroke-width="4" />
+                <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10" />
+                <path d="M30,0 v30 M0,15 h60" stroke="#cf142b" stroke-width="6" />
+            </svg>
+        </button>
+        <button class="flag-btn" data-lang="be" title="Беларуская">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 15" class="flag-icon">
+                <rect width="21" height="15" fill="#fff" />
+                <rect y="5" width="21" height="5" fill="#E62020" />
+                <rect width="21" height="15" fill="none" stroke="#e0e0e0" stroke-width="1" />
+            </svg>
+        </button>
+        <button class="flag-btn" data-lang="pt" title="Português">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 16" class="flag-icon">
+                <rect width="22" height="16" fill="#009c3b" />
+                <polygon points="11,2 19.5,8 11,14 2.5,8" fill="#ffdf00" />
+                <circle cx="11" cy="8" r="3.5" fill="#002776" />
+                <path d="M8,8 C8,8 10,9 14,7" stroke="#fff" stroke-width="0.5" fill="none" />
+            </svg>
+        </button>
+        <button class="flag-btn" data-lang="es" title="Español">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 15" class="flag-icon">
+                <rect width="21" height="15" fill="#AA151B" />
+                <rect y="3.75" width="21" height="7.5" fill="#F1BF00" />
+            </svg>
+        </button>
+    </div>
+
     <div class="grid-container">
         <header class="header">
-            <h1>Stanislav<br>Simanovich</h1>
+            <h1 data-i18n="title">Stanislav<br>Simanovich</h1>
         </header>
 
         <div class="sidebar-image">
             <div class="image-wrapper">
                 <img src="images/me.jpg" alt="Stanislav Simanovich" class="profile-img">
-                <a href="maja.html" class="credits-overlay">Credits</a>
+                <a href="maja.html" class="credits-overlay" data-i18n="credits.overlay">Credits</a>
             </div>
         </div>
 
         <nav class="nav">
             <ul>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#work">Work</a></li>
-                <li><a href="index.html#education">Education</a></li>
-                <li><a href="cool-stuff.html">Cool Stuff</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="index.html#about" data-i18n="nav.about">About</a></li>
+                <li><a href="index.html#work" data-i18n="nav.work">Work</a></li>
+                <li><a href="index.html#education" data-i18n="nav.education">Education</a></li>
+                <li><a href="cool-stuff.html" data-i18n="nav.coolstuff">Cool Stuff</a></li>
+                <li><a href="index.html#contact" data-i18n="nav.contact">Contact</a></li>
             </ul>
         </nav>
 
         <main class="main-content">
             <section class="section collapsible active">
                 <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
-                    <h2>Interactive Double Pendulum</h2>
+                    <h2 data-i18n="cs.pendulum.title">Interactive Double Pendulum</h2>
                     <span class="toggle-icon"></span>
                 </div>
                 <div class="collapsible-wrapper">
                     <div class="collapsible-content">
                         <div class="content-block" style="margin-top: 20px;">
-                            <p class="info-text">
+                            <p class="info-text" data-i18n="cs.pendulum.desc">
                                 A chaotic double pendulum simulation. Drag the pendulum bobs to set initial positions,
                                 or use the controls below to adjust parameters. Watch as tiny changes in initial
                                 conditions
@@ -320,13 +356,13 @@
 
             <section class="section collapsible">
                 <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
-                    <h2>PID Controller</h2>
+                    <h2 data-i18n="cs.pid.title">PID Controller</h2>
                     <span class="toggle-icon"></span>
                 </div>
                 <div class="collapsible-wrapper">
                     <div class="collapsible-content">
                         <div class="content-block" style="margin-top: 20px;">
-                            <p class="info-text">
+                            <p class="info-text" data-i18n="cs.pid.desc">
                                 A visual demonstration of a PID controller. Twist the <strong>TARGET</strong> knob (Red)
                                 and
                                 watch
@@ -387,13 +423,13 @@
 
             <section class="section collapsible">
                 <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
-                    <h2>Fourier Series Drawing</h2>
+                    <h2 data-i18n="cs.fourier.title">Fourier Series Drawing</h2>
                     <span class="toggle-icon"></span>
                 </div>
                 <div class="collapsible-wrapper">
                     <div class="collapsible-content">
                         <div class="content-block" style="margin-top: 20px;">
-                            <p class="info-text">
+                            <p class="info-text" data-i18n="cs.fourier.desc">
                                 <strong>Draw anything</strong> in the box below! The computer will calculate the Fourier
                                 Series (DFT)
                                 of your drawing and reconstruct it using purely rotating circles (<span
@@ -436,13 +472,13 @@
 
             <section class="section collapsible">
                 <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
-                    <h2>Lorenz Attractor</h2>
+                    <h2 data-i18n="cs.lorenz.title">Lorenz Attractor</h2>
                     <span class="toggle-icon"></span>
                 </div>
                 <div class="collapsible-wrapper">
                     <div class="collapsible-content">
                         <div class="content-block" style="margin-top: 20px;">
-                            <p class="info-text">
+                            <p class="info-text" data-i18n="cs.lorenz.desc">
                                 The <strong>Lorenz Attractor</strong> is a set of chaotic solutions to the Lorenz
                                 system.
                                 It resembles a butterfly and is a primary example of how deterministic systems can
@@ -498,13 +534,13 @@
 
             <section class="section collapsible">
                 <div class="collapsible-header" onclick="toggleSection(this.parentElement)">
-                    <h2>Conway's Game of Life</h2>
+                    <h2 data-i18n="cs.gol.title">Conway's Game of Life</h2>
                     <span class="toggle-icon"></span>
                 </div>
                 <div class="collapsible-wrapper">
                     <div class="collapsible-content">
                         <div class="content-block" style="margin-top: 20px;">
-                            <p class="info-text">
+                            <p class="info-text" data-i18n="cs.gol.desc">
                                 The most famous "Zero Player Game". A set of simple rules that creates complex,
                                 life-like behaviors.
                                 <strong>Click</strong> to revive cells, or use the buttons below.
@@ -550,6 +586,7 @@
             <p>Stanislav Simanovich &copy;</p>
         </footer>
     </div>
+    <script src="translations.js"></script>
     <script src="pendulum.js"></script>
     <script src="pid.js"></script>
     <script src="fourier.js"></script>
