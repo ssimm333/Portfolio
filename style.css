@@ -494,6 +494,43 @@ body.landing-page .lp-footer {
 
 
 
+/* Landing page entrance animations */
+@keyframes lp-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes lp-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+body.landing-page .top-header {
+    animation: lp-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+body.landing-page .lp-hero-text h1 {
+    animation: lp-fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+body.landing-page .lp-footer {
+    animation: lp-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.landing-page .top-header,
+    body.landing-page .lp-hero-text h1,
+    body.landing-page .lp-footer {
+        animation: none;
+    }
+}
+
 /* Main Hero Row */
 .lp-main {
     display: grid;
@@ -726,6 +763,82 @@ body.landing-page .lp-footer {
         height: 180px;
         border-width: 38px;
         bottom: -90px;
+    }
+}
+
+/* =========================================
+   Apple-style Scroll Animations
+   =========================================*/
+
+/* Base hidden state for scroll-reveal elements */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scale-up variant — elements zoom in from smaller */
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.85) translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-scale.reveal-visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* Fade-in from left */
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-80px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-left.reveal-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Fade-in from right */
+.reveal-right {
+    opacity: 0;
+    transform: translateX(80px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-right.reveal-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Stagger delays for child elements */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .reveal, .reveal-scale, .reveal-left, .reveal-right {
+        opacity: 1;
+        transform: none;
+        transition: none;
     }
 }
 

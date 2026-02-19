@@ -63,29 +63,22 @@
             if (!arch) return;
 
             // Physics constants
-            const gravity = 1800;      // px/s²
-            const bounciness = 0.52;   // energy retained per bounce
-            const minBounceVel = 60;   // px/s — below this, settle immediately
+            const gravity = 2200;      // px/s² – slightly faster for a snappy Apple feel
+            const bounciness = 0.45;   // energy retained per bounce
+            const minBounceVel = 40;   // px/s — below this, settle immediately
 
-            // The arch's resting bottom offset (from CSS: bottom: -300px on desktop)
-            // We read it after layout so it works for all screen sizes too
             function getRestingBottom() {
                 const style = window.getComputedStyle(arch);
-                // The CSS sets bottom: -300px (or -120px on mobile etc.)
                 return parseFloat(style.bottom);
             }
 
-            // Start above the viewport
-            const startOffset = window.innerHeight + 400;
-            let currentBottom = -startOffset;
+            let currentBottom;
             let velocity = 0;          // px/s, positive = moving up
             let restingBottom;
             let lastTime = null;
             let settled = false;
 
-            // Hide then position manually
             arch.style.transition = 'none';
-            arch.style.bottom = currentBottom + 'px';
 
             function animate(timestamp) {
                 if (settled) return;
@@ -95,20 +88,19 @@
                     return;
                 }
 
-                const dt = Math.min((timestamp - lastTime) / 1000, 0.05); // cap at 50ms
+                const dt = Math.min((timestamp - lastTime) / 1000, 0.05);
                 lastTime = timestamp;
 
-                // Apply gravity (gravity pulls down → decreases bottom)
+                // Gravity pulls down → decreases bottom value
                 velocity -= gravity * dt;
                 currentBottom += velocity * dt;
 
                 if (currentBottom <= restingBottom) {
-                    // Hit the floor
+                    // Hit the resting position (floor)
                     currentBottom = restingBottom;
                     velocity = -velocity * bounciness;
 
                     if (Math.abs(velocity) < minBounceVel) {
-                        // Done — snap to CSS and remove inline style
                         arch.style.bottom = '';
                         settled = true;
                         return;
@@ -119,11 +111,13 @@
                 requestAnimationFrame(animate);
             }
 
-            // Wait one frame for layout so getComputedStyle is accurate
+            // Wait one frame for layout
             requestAnimationFrame(function () {
                 restingBottom = getRestingBottom();
-                // Re-apply start position (computed style may have overridden)
-                currentBottom = -startOffset;
+                // Start HIGH above resting position — arch drops from top of container
+                const container = arch.parentElement;
+                const containerH = container.getBoundingClientRect().height;
+                currentBottom = restingBottom + containerH + 400;
                 arch.style.bottom = currentBottom + 'px';
                 requestAnimationFrame(animate);
             });

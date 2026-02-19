@@ -36,11 +36,11 @@
 
         <main class="main-content">
             <section id="experience" class="section">
-                <h2>Experience</h2>
+                <h2 class="reveal">Experience</h2>
 
                 <div class="timeline-container">
                     <!-- Education Card (Above Timeline) -->
-                    <div class="timeline-card timeline-card-top" data-start="2023" data-end="2027">
+                    <div class="timeline-card timeline-card-top reveal-scale reveal-delay-1" data-start="2023" data-end="2027">
                         <div class="card-content">
                             <img src="images/ul_logo.png" alt="University of Limerick" class="card-logo">
                             <div class="card-info">
@@ -59,7 +59,7 @@
                     </div>
 
                     <!-- Timeline Bar with Years -->
-                    <div class="timeline-bar">
+                    <div class="timeline-bar reveal reveal-delay-2">
                         <div class="timeline-line"></div>
                         <div class="timeline-years">
                             <span class="year-marker" data-year="2005">2005</span>
@@ -75,7 +75,7 @@
                     </div>
 
                     <!-- Work Card (Below Timeline) -->
-                    <div class="timeline-card timeline-card-bottom" data-start="2025" data-end="2026">
+                    <div class="timeline-card timeline-card-bottom reveal-scale reveal-delay-3" data-start="2025" data-end="2026">
                         <div class="card-content">
                             <img src="images/Analog_Devices_Logo.svg.png" alt="ADI Logo" class="card-logo">
                             <div class="card-info">
@@ -99,6 +99,7 @@
 
     <script src="theme.js"></script>
     <script src="script.js"></script>
+    <script src="scroll-reveal.js"></script>
     <script>
         // Subtle timeline hover interactions
         const cards = document.querySelectorAll('.timeline-card');
