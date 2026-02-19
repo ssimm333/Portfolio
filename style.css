@@ -521,7 +521,7 @@ body.landing-page .lp-footer {
     width: 600px;
     height: 600px;
     background: transparent;
-    border: 120px solid var(--accent-color);
+    border: 120px solid green;
     border-radius: 50%;
     position: absolute;
     right: 0;
