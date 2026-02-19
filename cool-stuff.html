@@ -23,6 +23,8 @@
             align-items: center;
             gap: 20px;
             padding: 20px;
+            width: 100%;
+            overflow: hidden;
         }
 
         canvas {
@@ -31,6 +33,8 @@
             border-radius: 4px;
             box-shadow: none;
             cursor: grab;
+            max-width: 100%;
+            height: auto;
         }
 
         canvas:active {
@@ -49,6 +53,27 @@
             margin-top: 20px;
             width: 100%;
             max-width: 800px;
+        }
+
+        @media (max-width: 768px) {
+            .pendulum-container {
+                padding: 12px 0;
+                gap: 12px;
+            }
+
+            .controls {
+                padding: 12px 8px;
+                gap: 12px;
+            }
+
+            .control-group input[type="range"] {
+                width: 120px;
+            }
+
+            .math-block {
+                padding: 14px;
+                font-size: 0.9rem;
+            }
         }
 
         .control-group {

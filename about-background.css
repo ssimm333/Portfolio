@@ -70,3 +70,32 @@ body:has(#about)::before {
     grid-column: 2;
     grid-row: 2;
 }
+
+@media (max-width: 768px) {
+    #about .about-container {
+        padding: 20px 16px;
+    }
+
+    #about .about-content-wrapper {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 16px;
+    }
+
+    #about .about-content-wrapper h2 {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #about .image-wrapper {
+        grid-column: 1;
+        grid-row: 2;
+        max-width: 220px;
+        margin: 0 auto;
+    }
+
+    #about .content-block {
+        grid-column: 1;
+        grid-row: 3;
+    }
+}
