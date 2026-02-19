@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Credits</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="style.css?v=4">
     <style>
         body {
             display: flex;
@@ -71,25 +71,49 @@
                 transform: scale(1.2);
             }
         }
+        .preload-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .preload-screen .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
 <body>
-
+    <div class="preload-screen" id="preloader">
+        <div class="spinner"></div>
+    </div>
 
     <div class="dedication-container">
         <div class="heart">❤️</div>
-        <h1 data-i18n="maja.dedication">Dedicated to my lovely girlfriend Maja</h1>
+        <h1>Dedicated to my lovely girlfriend Maja</h1>
         <div class="maja-photo-container">
             <img src="images/maja.jpeg" alt="Maja" class="maja-photo">
         </div>
-        <p data-i18n="maja.photo.desc">For taking the cool photo.</p>
+        <p>For taking the cool photo.</p>
         <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
             <a href="index.html" aria-label="Home"><svg class="home-icon" style="width: 24px; height: 24px;"
                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="white" />
                 </svg></a>
-            <a href="index.html" class="back-link" data-i18n="maja.return">Return Home</a>
+            <a href="index.html" class="back-link">Return Home</a>
         </div>
         <button id="theme-toggle" title="Toggle Theme"></button>
     </div>
@@ -126,6 +150,7 @@
         }
     </style>
 
+    <script src="page-transitions.js"></script>
 </body>
 
 </html>
