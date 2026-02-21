@@ -489,8 +489,12 @@ body.landing-page {
     overflow: hidden;
 }
 
+body.landing-page .top-header {
+    border-bottom: none;
+}
+
 body.landing-page .lp-footer {
-    border-top: 1px solid var(--border-color);
+    border-top: none;
 }
 
 
@@ -546,7 +550,7 @@ body.landing-page .lp-footer {
 .lp-graphic {
     height: 100%;
     position: relative;
-    border-left: 1px solid var(--border-color);
+    border-left: none;
     display: flex;
     align-items: flex-end;
     /* Sit on the bottom line? */
@@ -687,7 +691,7 @@ body.landing-page .lp-footer {
 
     .lp-graphic {
         border-left: none;
-        border-top: 1px solid var(--border-color);
+        border-top: none;
     }
 
     .red-arch {
