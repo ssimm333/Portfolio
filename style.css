@@ -44,7 +44,8 @@ body {
     line-height: 1.4;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Grid Layout */
@@ -1110,11 +1111,11 @@ body.landing-page .lp-footer {
     box-shadow: 0 6px 16px rgba(230, 32, 32, 0.2);
 }
 
-.skill-item svg {
+.skill-item svg,
+.skill-item img {
     width: 36px;
     height: 36px;
-    fill: var(--text-color);
-    transition: fill 0.3s ease;
+    object-fit: contain;
 }
 
 .skill-item span {
@@ -1134,7 +1135,8 @@ body.landing-page .lp-footer {
         padding: 14px 8px;
     }
 
-    .skill-item svg {
+    .skill-item svg,
+    .skill-item img {
         width: 28px;
         height: 28px;
     }
@@ -1202,33 +1204,23 @@ body.landing-page .lp-footer {
 
 .cv-button {
     text-decoration: none;
-    color: var(--nav-text);
-    font-size: 0.9rem;
+    color: var(--accent-color);
+    font-size: 1rem;
     font-weight: 600;
     text-transform: uppercase;
-    padding: 6px 14px;
-    border: 1.5px solid var(--nav-text);
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
     display: inline-flex;
     align-items: center;
     gap: 4px;
 }
 
 .cv-button:hover {
-    color: #fff;
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
+    opacity: 0.6;
 }
 
 /* =========================================
    Page Transitions
    =========================================*/
-body {
-    opacity: 0;
-    transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-}
-
 body.page-loaded {
     opacity: 1;
 }

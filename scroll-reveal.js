@@ -1,12 +1,11 @@
 /**
  * Apple-style scroll reveal using Intersection Observer.
- * Any element with class "reveal", "reveal-scale", "reveal-left", or "reveal-right"
- * will animate into view when it enters the viewport.
+ * Elements animate in when entering the viewport and
+ * reset when leaving, so they animate again on re-entry.
  */
 (function () {
     const SELECTORS = '.reveal, .reveal-scale, .reveal-left, .reveal-right';
 
-    // Respect prefers-reduced-motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const observer = new IntersectionObserver(
@@ -14,13 +13,14 @@
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('reveal-visible');
-                    observer.unobserve(entry.target); // animate once only
+                } else {
+                    entry.target.classList.remove('reveal-visible');
                 }
             });
         },
         {
-            threshold: 0.12,  // trigger when 12% visible
-            rootMargin: '0px 0px -60px 0px' // slight offset so it triggers a bit after entering
+            threshold: 0.12,
+            rootMargin: '0px 0px -60px 0px'
         }
     );
 

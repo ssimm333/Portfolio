@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .error-container {
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .error-code {
+            font-family: var(--font-heading);
+            font-size: 10rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--accent-color);
+            letter-spacing: -6px;
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            font-size: 1.3rem;
+            color: var(--nav-text);
+            margin-bottom: 2.5rem;
+        }
+
+        .home-button {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 12px 28px;
+            border: 2px solid var(--text-color);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .home-button:hover {
+            color: #fff;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 6rem;
+                letter-spacing: -3px;
+            }
+
+            .error-message {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <p class="error-message">Page not found</p>
+        <a href="index.html" class="home-button">Return Home</a>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="page-transitions.js"></script>
+</body>
+
+</html>
